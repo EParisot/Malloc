@@ -1,25 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   malloc.h                                           :+:      :+:    :+:   */
+/*   ft_sqrt.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eparisot <eparisot@42.student.fr>          +#+  +:+       +#+        */
+/*   By: eparisot <eparisot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/08/23 17:48:14 by eparisot          #+#    #+#             */
-/*   Updated: 2019/09/11 10:35:24 by eparisot         ###   ########.fr       */
+/*   Created: 2017/11/08 15:41:47 by eparisot          #+#    #+#             */
+/*   Updated: 2017/11/08 15:43:12 by eparisot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MALLOC_H
-# define MALLOC_H
+int		ft_sqrt(int nb)
+{
+	int r;
 
-#include "../libft/libft.h"
-#include <unistd.h>
-#include <sys/mman.h>
-
-void				free(void *ptr);
-void				*malloc(size_t size);
-void				*realloc(void *ptr, size_t size);
-void				show_alloc_mem(void);
-
-#endif
+	r = 1;
+	if (nb < 0)
+		return (0);
+	while (r * r < nb)
+		r++;
+	if (r * r == nb)
+		return (r);
+	else
+		return (0);
+}

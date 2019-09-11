@@ -1,25 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   malloc.h                                           :+:      :+:    :+:   */
+/*   ft_strrev.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eparisot <eparisot@42.student.fr>          +#+  +:+       +#+        */
+/*   By: eparisot <eparisot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/08/23 17:48:14 by eparisot          #+#    #+#             */
-/*   Updated: 2019/09/11 10:35:24 by eparisot         ###   ########.fr       */
+/*   Created: 2017/10/29 15:17:03 by eparisot          #+#    #+#             */
+/*   Updated: 2017/10/29 15:21:13 by eparisot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MALLOC_H
-# define MALLOC_H
+#include "libft.h"
 
-#include "../libft/libft.h"
-#include <unistd.h>
-#include <sys/mman.h>
+char	*ft_strrev(char *s)
+{
+	int		i;
+	int		j;
+	char	tmp;
 
-void				free(void *ptr);
-void				*malloc(size_t size);
-void				*realloc(void *ptr, size_t size);
-void				show_alloc_mem(void);
-
-#endif
+	i = 0;
+	j = ft_strlen(s) - 1;
+	tmp = '\0';
+	while (j > i)
+	{
+		tmp = s[i];
+		s[i] = s[j];
+		s[j] = tmp;
+		i++;
+		j--;
+	}
+	return (s);
+}

@@ -1,25 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   malloc.h                                           :+:      :+:    :+:   */
+/*   ft_memalloc.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eparisot <eparisot@42.student.fr>          +#+  +:+       +#+        */
+/*   By: eparisot <eparisot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/08/23 17:48:14 by eparisot          #+#    #+#             */
-/*   Updated: 2019/09/11 10:35:24 by eparisot         ###   ########.fr       */
+/*   Created: 2017/10/29 14:57:52 by eparisot          #+#    #+#             */
+/*   Updated: 2017/11/20 21:15:41 by eparisot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MALLOC_H
-# define MALLOC_H
+#include "libft.h"
+#include <stdlib.h>
 
-#include "../libft/libft.h"
-#include <unistd.h>
-#include <sys/mman.h>
+void	*ft_memalloc(size_t size)
+{
+	char			*mem;
+	unsigned int	i;
 
-void				free(void *ptr);
-void				*malloc(size_t size);
-void				*realloc(void *ptr, size_t size);
-void				show_alloc_mem(void);
-
-#endif
+	i = 0;
+	if ((mem = (char *)malloc(size)) == NULL)
+		return (NULL);
+	while (i < size)
+	{
+		mem[i] = 0;
+		i++;
+	}
+	return (mem);
+}

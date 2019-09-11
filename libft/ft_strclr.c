@@ -1,25 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   malloc.h                                           :+:      :+:    :+:   */
+/*   ft_strclr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eparisot <eparisot@42.student.fr>          +#+  +:+       +#+        */
+/*   By: eparisot <eparisot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/08/23 17:48:14 by eparisot          #+#    #+#             */
-/*   Updated: 2019/09/11 10:35:24 by eparisot         ###   ########.fr       */
+/*   Created: 2017/10/29 14:59:36 by eparisot          #+#    #+#             */
+/*   Updated: 2017/11/15 17:01:45 by eparisot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MALLOC_H
-# define MALLOC_H
+#include "libft.h"
 
-#include "../libft/libft.h"
-#include <unistd.h>
-#include <sys/mman.h>
+void	ft_strclr(char *s)
+{
+	unsigned int i;
 
-void				free(void *ptr);
-void				*malloc(size_t size);
-void				*realloc(void *ptr, size_t size);
-void				show_alloc_mem(void);
-
-#endif
+	i = 0;
+	if (s == NULL)
+		return ;
+	while (s[i])
+	{
+		s[i] = 0;
+		i++;
+	}
+}

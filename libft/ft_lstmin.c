@@ -1,25 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   malloc.h                                           :+:      :+:    :+:   */
+/*   ft_lstmin.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eparisot <eparisot@42.student.fr>          +#+  +:+       +#+        */
+/*   By: eparisot <eparisot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/08/23 17:48:14 by eparisot          #+#    #+#             */
-/*   Updated: 2019/09/11 10:35:24 by eparisot         ###   ########.fr       */
+/*   Created: 2018/03/19 14:59:35 by eparisot          #+#    #+#             */
+/*   Updated: 2018/03/19 16:26:34 by eparisot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MALLOC_H
-# define MALLOC_H
+#include "libft.h"
+#include <limits.h>
 
-#include "../libft/libft.h"
-#include <unistd.h>
-#include <sys/mman.h>
+int		ft_lstmin(t_list *lst)
+{
+	int	min;
 
-void				free(void *ptr);
-void				*malloc(size_t size);
-void				*realloc(void *ptr, size_t size);
-void				show_alloc_mem(void);
-
-#endif
+	min = INT_MAX;
+	while (lst && lst->content)
+	{
+		if (((*(int*)lst->content) < min))
+			min = (*(int*)lst->content);
+		lst = lst->next;
+	}
+	return (min);
+}
