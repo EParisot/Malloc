@@ -6,7 +6,7 @@
 #    By: eparisot <eparisot@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/10/30 19:40:33 by eparisot          #+#    #+#              #
-#    Updated: 2019/08/24 15:10:17 by eparisot         ###   ########.fr        #
+#    Updated: 2019/09/13 11:49:32 by eparisot         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,8 @@ LNK		=	libft_malloc.so
 
 SRCS	=	srcs/free.c \
 			srcs/malloc.c \
-			srcs/realloc.c
+			srcs/realloc.c \
+			srcs/show_alloc_mem.c
 INC		=	includes/malloc.h
 
 OBJS	=	$(SRCS:.c=.o)

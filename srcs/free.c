@@ -6,7 +6,7 @@
 /*   By: eparisot <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/24 11:36:57 by eparisot          #+#    #+#             */
-/*   Updated: 2019/09/13 02:16:40 by eparisot         ###   ########.fr       */
+/*   Updated: 2019/09/13 12:26:42 by eparisot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ t_header		*find_header(void *ptr)
 	curr_header = g_mem_start;
 	while (curr_header)
 	{
-		if (curr_header->is_free == 0 && curr_header + sizeof(t_header) == ptr)
+		if (curr_header->is_free == 0 && \
+			(void*)curr_header + sizeof(t_header) == ptr)
 			return (curr_header);
 		curr_header = curr_header->next;
 	}
@@ -29,7 +30,7 @@ t_header		*find_header(void *ptr)
 void			deallocate(t_header *curr_header)
 {
 	curr_header->is_free = 1;
-	printf("free %zu at %p\n", curr_header->size, curr_header + sizeof(t_header));
+	printf("free %zu at %p\n", curr_header->size, (void*)curr_header + sizeof(t_header));
 	//TODO defragmentation
 }
 

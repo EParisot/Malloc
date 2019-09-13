@@ -24,10 +24,21 @@ void test_double(void)
 	free(test2);
 }
 
+void test_show(void)
+{
+	void	*test;
+	test = malloc(sizeof(char)*11);
+	ft_strcpy(test, "HelloWorld\0");
+	printf("%s\n", test);
+	show_alloc_mem();
+	free(test);
+}
+
 int main()
 {
 	//test_str();
-	test_double();
+	//test_double();
+	test_show();
 	//while (1);
 	return 0;
 }

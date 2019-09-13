@@ -6,7 +6,7 @@
 /*   By: eparisot <eparisot@42.student.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/23 17:46:38 by eparisot          #+#    #+#             */
-/*   Updated: 2019/09/13 02:20:55 by eparisot         ###   ########.fr       */
+/*   Updated: 2019/09/13 12:25:44 by eparisot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void			init_first_header(size_t pagesize)
 
 	first_header = mmap(NULL, pagesize, PROT_READ | PROT_WRITE | PROT_EXEC, \
 								MAP_ANON | MAP_PRIVATE, -1, 0);
+	first_header->type = 0;
 	first_header->size = pagesize - sizeof(t_header);
 	first_header->is_free = 1;
 	first_header->next = NULL;
@@ -30,6 +31,7 @@ void			build_header(void *addr, size_t size, void *next_header)
 	t_header	*new_header;
 
 	new_header = addr;
+	new_header->type = 0;
 	new_header->size = size - sizeof(t_header);
 	new_header->is_free = 1;
 	new_header->next = next_header;
@@ -43,18 +45,18 @@ void			append_page(size_t pagesize)
 void			*allocate(size_t size, t_header *curr_header)
 {
 	size_t		curr_size;
-	void		*curr_next;
+	t_header	*curr_next;
 
 	curr_size = curr_header->size;
 	curr_next = curr_header->next;
 	curr_header->size = size;
 	curr_header->is_free = 0;
-	curr_header->next = curr_header + sizeof(t_header) + size;
+	curr_header->next = (void*)curr_header + sizeof(t_header) + size;
 	build_header(curr_header->next, curr_size - size, curr_next);
-	return (curr_header + sizeof(t_header));
+	return ((void*)curr_header + sizeof(t_header));
 }
 
-void			*find_space(size_t size)
+t_header		*find_space(size_t size)
 {
 	t_header	*curr_header;
 
