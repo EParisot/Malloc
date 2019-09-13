@@ -6,12 +6,15 @@
 /*   By: eparisot <eparisot@42.student.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/23 17:48:14 by eparisot          #+#    #+#             */
-/*   Updated: 2019/09/13 14:48:45 by eparisot         ###   ########.fr       */
+/*   Updated: 2019/09/13 19:32:50 by eparisot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MALLOC_H
 # define MALLOC_H
+
+# define TINY 60
+# define LARGE 4056
 
 #include "../libft/libft.h"
 #include <unistd.h>
