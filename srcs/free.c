@@ -6,7 +6,7 @@
 /*   By: eparisot <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/24 11:36:57 by eparisot          #+#    #+#             */
-/*   Updated: 2019/09/13 15:32:29 by eparisot         ###   ########.fr       */
+/*   Updated: 2019/09/13 16:38:17 by eparisot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,8 @@ t_header		*is_empty()
 			empty_flag = 0;
 		if ((curr_header->prev == NULL || curr_header->prev->page_id != curr_id) && empty_flag == 1)
 			return (curr_header);
-		else if (curr_header->prev == NULL || curr_header->page_id != curr_id)
+		else if (curr_header->prev == NULL || curr_header->prev->page_id != curr_id)
 			empty_flag = 1;
-
 		curr_header = curr_header->prev;
 	}
 	return (NULL);
@@ -71,7 +70,7 @@ t_header		*get_next_page(t_header *curr_header)
 {
 	int			curr_id;
 
-	curr_id = 0;
+	curr_id = curr_header->page_id;
 	while (curr_header)
 	{
 		if (curr_header->page_id != curr_id)
@@ -106,11 +105,12 @@ void			free(void *ptr)
 			next_header->prev = curr_header->prev;
 		if (curr_header->prev)
 			curr_header->prev->next = next_header;
+		//update g_mem_start if destroyed
+		if (curr_header == g_mem_start)
+			g_mem_start = next_header;
 		// and destroy curr page
 		printf("cleaned page %d\n", curr_header->page_id);
-		if (curr_header->page_id == 0)
-			while (g_mem_start && g_mem_start->page_id == 0)
-				g_mem_start = g_mem_start->next;
+		//printf("prev %d, next %d\n", curr_header->prev->next->page_id, next_header->prev->page_id);
 		if(munmap(curr_header, pagesize) != 0)
 			ft_putstr("free Error");
 	}

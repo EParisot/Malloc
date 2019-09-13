@@ -6,7 +6,7 @@
 /*   By: eparisot <eparisot@42.student.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/23 17:46:38 by eparisot          #+#    #+#             */
-/*   Updated: 2019/09/13 14:23:40 by eparisot         ###   ########.fr       */
+/*   Updated: 2019/09/13 15:45:52 by eparisot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,8 +109,10 @@ void			*malloc(size_t size)
 	else
 	{
 		//or append a new page
+		printf("no space left, adding a page\n");
 		curr_header = append_page(pagesize);
 		addr = allocate(size, curr_header);
+		printf("allocated %zu at %p\n", size, addr);
 	}
 	return addr;
 }
