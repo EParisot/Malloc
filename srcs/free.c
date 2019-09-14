@@ -6,7 +6,7 @@
 /*   By: eparisot <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/24 11:36:57 by eparisot          #+#    #+#             */
-/*   Updated: 2019/09/14 13:31:02 by eparisot         ###   ########.fr       */
+/*   Updated: 2019/09/14 17:53:01 by eparisot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,7 +158,6 @@ void			free(void *ptr)
 	printf("requested free at : %p\n", ptr);
 	size_t		pagesize;
 	t_header	*curr_header;
-	int			empty_page;
 
 	pagesize = getpagesize();
 	//find mem zone

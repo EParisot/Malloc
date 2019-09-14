@@ -6,7 +6,7 @@
 #    By: eparisot <eparisot@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/10/30 19:40:33 by eparisot          #+#    #+#              #
-#    Updated: 2018/03/19 19:05:43 by eparisot         ###   ########.fr        #
+#    Updated: 2019/09/14 17:44:43 by eparisot         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,6 +47,7 @@ SRCS	=	ft_atoi.c \
 			ft_putendl_fd.c \
 			ft_putnbr.c \
 			ft_putnbr_fd.c \
+			ft_putnbr_hex_p.c \
 			ft_putstr.c \
 			ft_putstr_fd.c \
 			ft_sqrt.c \
