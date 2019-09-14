@@ -6,7 +6,7 @@
 /*   By: eparisot <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/24 11:36:57 by eparisot          #+#    #+#             */
-/*   Updated: 2019/09/13 19:23:49 by eparisot         ###   ########.fr       */
+/*   Updated: 2019/09/14 13:31:02 by eparisot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,11 +90,34 @@ t_header		*get_next_page(t_header *curr_header)
 	return (NULL);
 }
 
+void			merge_chunks(t_header *header_l, t_header *header_r)
+{
+	header_l->size += sizeof(t_header) + header_r->size;
+	header_l->next = header_r->next;
+	if (header_r->next)
+		header_r->next->prev = header_l;
+	printf("merged %p and %p\n", header_l, header_r);
+}
+
 void			deallocate(t_header *curr_header)
 {
+	int			curr_page;
+
+	curr_page = curr_header->page_id;
 	curr_header->is_free = 1;
 	printf("free %zu at %p\n", curr_header->size, (void*)curr_header + sizeof(t_header));
-	//TODO defragmentation
+	//defragmentation
+	while (curr_header->prev && curr_header->prev->page_id == curr_page && \
+			curr_header->prev->is_free == 1)
+	{
+		merge_chunks(curr_header->prev, curr_header);
+		curr_header = curr_header->prev;
+	}
+	while (curr_header->next && curr_header->next->page_id == curr_page && \
+			curr_header->next->is_free == 1)
+	{
+		merge_chunks(curr_header, curr_header->next);
+	}
 }
 
 void			clean_pages()
