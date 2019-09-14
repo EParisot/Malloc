@@ -6,7 +6,7 @@
 /*   By: eparisot <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/24 11:36:57 by eparisot          #+#    #+#             */
-/*   Updated: 2019/09/14 20:37:19 by eparisot         ###   ########.fr       */
+/*   Updated: 2019/09/15 00:36:16 by eparisot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,40 +25,6 @@ t_header		*find_header(void *ptr)
 		curr_header = curr_header->next;
 	}
 	return (NULL);
-}
-
-t_header		*is_empty_page()
-{
-	t_header	*curr_header;
-	int			empty_flag;
-
-	empty_flag = 1;
-	curr_header = g_mem_start;
-	while (curr_header)
-	{
-		if (curr_header->is_free == 1 && curr_header->type == 2)
-			return (curr_header);
-		curr_header = curr_header->next;
-	}
-	return (NULL);
-}
-
-t_header		*is_empty_mem()
-{
-	t_header	*curr_header;
-	t_header	*last_page_header;
-
-	curr_header = g_mem_start;
-	while (curr_header)
-	{
-		if (curr_header->is_free == 0)
-			return (NULL);
-		curr_header = curr_header->next;
-	}
-	last_page_header = g_mem_start;
-	while (last_page_header->type != 1)
-		last_page_header = last_page_header->next;
-	return (last_page_header);
 }
 
 t_header		*get_next_page(t_header *curr_header)
@@ -103,20 +69,58 @@ void			deallocate(t_header *curr_header)
 	}
 }
 
-void			clean_pages()
+t_header		*is_empty_page(void)
+{
+	t_header	*curr_header;
+	int			curr_id;
+	int			empty_flag;
+
+	empty_flag = 1;
+	curr_header = g_mem_start;
+	while (curr_header->next)
+		curr_header = curr_header->next;
+	while (curr_header->type == 1)
+	{
+		curr_id = curr_header->page_id;
+		if (curr_header->is_free == 0)
+			empty_flag = 0;
+		if (curr_header->prev->page_id != curr_id && empty_flag == 1)
+			return (curr_header);
+		else if (curr_header->prev->page_id != curr_id)
+			empty_flag = 1;
+		curr_header = curr_header->prev;
+	}
+	return (NULL);
+}
+
+void			clean_pages(void)
 {
 	t_header	*curr_header;
 	t_header	*next_header;
 
-	while ((curr_header = is_empty_page()) && curr_header->type > 1)
+	while ((curr_header = is_empty_page()))
 	{
 		next_header = get_next_page(curr_header);
 		if (next_header)
 			next_header->prev = curr_header->prev;
 		curr_header->prev->next = next_header;
-		if(munmap(curr_header, curr_header->size) != 0)
-			ft_putstr("free Error");
+		if (munmap(curr_header, curr_header->size) != 0)
+			ft_putstr("free Error\n");
 	}
+}
+
+t_header		*is_empty_mem(void)
+{
+	t_header	*curr_header;
+
+	curr_header = g_mem_start;
+	while (curr_header->next)
+	{
+		if (curr_header->is_free == 0)
+			return (NULL);
+		curr_header = curr_header->next;
+	}
+	return (curr_header);
 }
 
 void			clean_mem(size_t pagesize)
@@ -125,10 +129,10 @@ void			clean_mem(size_t pagesize)
 
 	if ((last_header = is_empty_mem()) && last_header->next == NULL)
 	{
-		if(munmap(last_header, 100 * pagesize) != 0)
-			ft_putstr("free Error");
-		if(munmap(g_mem_start, 3 * pagesize) != 0)
-			ft_putstr("free Error");
+		if (munmap(last_header, 100 * pagesize) != 0)
+			ft_putstr("free Error\n");
+		if (munmap(g_mem_start, 3 * pagesize) != 0)
+			ft_putstr("free Error\n");
 		g_mem_start = NULL;
 	}
 }

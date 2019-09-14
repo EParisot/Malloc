@@ -41,9 +41,9 @@ void test_triple(void)
 	char	*test1;
 	char	*test2;
 	char	*test3;
-	test1 = (char *)malloc(sizeof(char)*2048);
-	test2 = (char *)malloc(sizeof(char)*2048);
-	test3 = (char *)malloc(sizeof(char)*2048);
+	test1 = (char *)malloc(sizeof(char)*6048);
+	test2 = (char *)malloc(sizeof(char)*6048);
+	test3 = (char *)malloc(sizeof(char)*6048);
 	ft_strcpy(test1, "Hello \0");
 	ft_strcpy(test2, "World\0");
 	ft_strcpy(test3, "Bitch\0");
@@ -51,8 +51,8 @@ void test_triple(void)
 	printf("%s\n", test2);
 	printf("%s\n", test3);
 	show_alloc_mem();
-	free(test2);
-	free(test1);
+	free(test2);	show_alloc_mem();
+	free(test1);	show_alloc_mem();
 	free(test3);
 }
 

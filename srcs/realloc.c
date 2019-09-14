@@ -6,7 +6,7 @@
 /*   By: eparisot <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/24 11:39:01 by eparisot          #+#    #+#             */
-/*   Updated: 2019/08/24 11:40:07 by eparisot         ###   ########.fr       */
+/*   Updated: 2019/09/15 00:36:33 by eparisot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,5 +16,5 @@ void				*realloc(void *ptr, size_t size)
 {
 	ptr = NULL;
 	size = 0;
-	return NULL;
+	return (NULL);
 }
