@@ -6,7 +6,7 @@
 /*   By: eparisot <eparisot@42.student.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/23 17:46:38 by eparisot          #+#    #+#             */
-/*   Updated: 2019/09/14 20:00:42 by eparisot         ###   ########.fr       */
+/*   Updated: 2019/09/14 20:08:22 by eparisot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,12 +98,9 @@ void			*allocate(size_t size, t_header *curr_header)
 	size_t		curr_size;
 	t_header	*curr_next;
 
-	//update curr
 	curr_header->is_free = 0;
-	//if space left after allocation
 	if (curr_header->size >= size + sizeof(t_header) + TINY)
 	{
-		//build and append next header
 		curr_size = curr_header->size;
 		curr_next = curr_header->next;
 		curr_header->size = size;
@@ -146,15 +143,12 @@ void			*malloc(size_t size)
 	curr_header = NULL;
 	addr = NULL;
 	pagesize = getpagesize();
-	//init mem list
 	if (g_mem_start == NULL)
 		if (init_memory(pagesize) < 0)
 			free(g_mem_start + sizeof(t_header));
-	//find free space in adapted page
 	curr_header = find_space(size);
 	if (size < LARGE && curr_header)
 		addr = allocate(size, curr_header);
-	//or append a new page
 	else
 	{
 		if (!(curr_header = append_page(pagesize, size)))

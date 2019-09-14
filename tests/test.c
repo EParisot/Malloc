@@ -62,7 +62,6 @@ int main()
 	//test_double();
 	//test_show();
 	test_triple();
-	test_triple();
 	//while (1);
 	return 0;
 }
