@@ -7,6 +7,7 @@ void test_str(void)
 	test_str = (char *)malloc(sizeof(char)*11);
 	ft_strcpy(test_str, "HelloWorld\0");
 	printf("%s\n", test_str);
+	show_alloc_mem();
 	free(test_str);
 }
 
@@ -20,6 +21,7 @@ void test_double(void)
 	ft_strcpy(test2, "World\0");
 	printf("%s\n", test1);
 	printf("%s\n", test2);
+	show_alloc_mem();
 	free(test1);
 	free(test2);
 }
@@ -29,7 +31,7 @@ void test_show(void)
 	void	*test;
 	test = malloc(sizeof(char)*11);
 	ft_strcpy(test, "HelloWorld\0");
-	//printf("%s\n", test);
+	printf("%s\n", test);
 	show_alloc_mem();
 	free(test);
 }
@@ -48,6 +50,7 @@ void test_triple(void)
 	printf("%s\n", test1);
 	printf("%s\n", test2);
 	printf("%s\n", test3);
+	show_alloc_mem();
 	free(test2);
 	free(test1);
 	free(test3);
@@ -57,8 +60,9 @@ int main()
 {
 	//test_str();
 	//test_double();
-	test_show();
-	//test_triple();
+	//test_show();
+	test_triple();
+	test_triple();
 	//while (1);
 	return 0;
 }

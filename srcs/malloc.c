@@ -6,7 +6,7 @@
 /*   By: eparisot <eparisot@42.student.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/23 17:46:38 by eparisot          #+#    #+#             */
-/*   Updated: 2019/09/14 19:54:17 by eparisot         ###   ########.fr       */
+/*   Updated: 2019/09/14 20:00:42 by eparisot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,6 @@ t_header		*append_page(size_t pagesize, size_t size)
 		curr_header = g_mem_start;
 		while (curr_header->next->type < 1)
 			curr_header = curr_header->next;
-		
 	}
 	else if (size < LARGE)
 	{
@@ -73,7 +72,6 @@ t_header		*append_page(size_t pagesize, size_t size)
 		curr_header = g_mem_start;
 		while (curr_header->next->type < 2)
 			curr_header = curr_header->next;
-		
 	}
 	else
 	{
@@ -129,9 +127,10 @@ t_header		*find_space(size_t size)
 	else
 		curr_type = 2;
 	curr_header = g_mem_start;
-	while (curr_header->type == curr_type)
+	while (curr_header->type <= curr_type)
 	{
-		if (curr_header->is_free && curr_header->size >= size)
+		if (curr_header->is_free && curr_header->type == curr_type && \
+				curr_header->size >= size)
 			return (curr_header);
 		curr_header = curr_header->next;
 	}
@@ -149,8 +148,8 @@ void			*malloc(size_t size)
 	pagesize = getpagesize();
 	//init mem list
 	if (g_mem_start == NULL)
-		if (init_memory(pagesize) != 0)
-			free(g_mem_start);
+		if (init_memory(pagesize) < 0)
+			free(g_mem_start + sizeof(t_header));
 	//find free space in adapted page
 	curr_header = find_space(size);
 	if (size < LARGE && curr_header)

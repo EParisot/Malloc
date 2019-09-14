@@ -6,7 +6,7 @@
 /*   By: eparisot <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/24 11:36:57 by eparisot          #+#    #+#             */
-/*   Updated: 2019/09/14 19:54:18 by eparisot         ###   ########.fr       */
+/*   Updated: 2019/09/14 20:04:32 by eparisot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,6 +146,7 @@ void			clean_mem(size_t pagesize)
 			ft_putstr("free Error");
 		if(munmap(g_mem_start, 3 * pagesize) != 0)
 			ft_putstr("free Error");
+		g_mem_start = NULL;
 	}
 }
 
