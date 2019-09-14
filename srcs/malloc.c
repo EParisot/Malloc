@@ -6,7 +6,7 @@
 /*   By: eparisot <eparisot@42.student.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/23 17:46:38 by eparisot          #+#    #+#             */
-/*   Updated: 2019/09/13 20:16:03 by eparisot         ###   ########.fr       */
+/*   Updated: 2019/09/14 11:27:12 by eparisot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@ void			init_memory(size_t pagesize)
 	first_header->next = NULL;
 	g_mem_start = first_header;
 	printf("init first header at : %p with %zu\n", first_header, first_header->size);
-	second_header = mmap(NULL, 100 * pagesize, PROT_READ | PROT_WRITE | PROT_EXEC,\
-								MAP_ANON | MAP_PRIVATE, -1, 0);
+	second_header = mmap(NULL, 100 * pagesize, PROT_READ | PROT_WRITE | \
+								PROT_EXEC, MAP_ANON | MAP_PRIVATE, -1, 0);
 	second_header->page_id = 1;
 	second_header->type = 1;
 	second_header->size = 100 * pagesize - sizeof(t_header);
@@ -59,13 +59,16 @@ t_header		*append_page(size_t pagesize, size_t size)
 	int			factor;
 
 	factor = 1;
-	while (factor * pagesize < size)
+	//calc pages needed
+	while (factor * pagesize < size + sizeof(t_header))
 		++factor;
+	//find last location
 	curr_header = g_mem_start;
 	while (curr_header->next)
 		curr_header = curr_header->next;
-	new_header = mmap(NULL, factor * pagesize, PROT_READ | PROT_WRITE | PROT_EXEC, \
-								MAP_ANON | MAP_PRIVATE, -1, 0);
+	//append page
+	new_header = mmap(NULL, factor * pagesize, PROT_READ | PROT_WRITE | \
+								PROT_EXEC, MAP_ANON | MAP_PRIVATE, -1, 0);
 	new_header->type = 2;
 	new_header->page_id = curr_header->page_id + 1;
 	new_header->size = factor * pagesize - sizeof(t_header);
@@ -79,15 +82,21 @@ void			*allocate(size_t size, t_header *curr_header)
 	size_t		curr_size;
 	t_header	*curr_next;
 
-	curr_size = curr_header->size;
-	curr_next = curr_header->next;
-	curr_header->size = size;
+	//update curr
 	curr_header->is_free = 0;
-	curr_header->next = (void*)curr_header + sizeof(t_header) + size;
-	curr_header->next->type = curr_header->type;
-	curr_header->next->page_id = curr_header->page_id;
-	curr_header->next->size = curr_size - size - sizeof(t_header);
-	build_header(curr_header->next, curr_header, curr_next);
+	//if space left after allocation
+	if (curr_header->size >= size + sizeof(t_header) + TINY)
+	{
+		//build and append next header
+		curr_size = curr_header->size;
+		curr_next = curr_header->next;
+		curr_header->size = size;
+		curr_header->next = (void*)curr_header + sizeof(t_header) + size;
+		curr_header->next->type = curr_header->type;
+		curr_header->next->page_id = curr_header->page_id;
+		curr_header->next->size = curr_size - size - sizeof(t_header);
+		build_header(curr_header->next, curr_header, curr_next);
+	}
 	return ((void*)curr_header + sizeof(t_header));
 }
 
@@ -103,6 +112,9 @@ t_header		*find_space(size_t size)
 	curr_header = g_mem_start;
 	while (curr_header)
 	{
+		//if no TINY or SMALL, search in LARGES
+		if (curr_header->type == 2)
+			curr_type = 2;
 		if (curr_header->is_free && curr_header->type == curr_type && \
 			curr_header->size >= size + sizeof(t_header))
 			return (curr_header);
@@ -132,9 +144,9 @@ void			*malloc(size_t size)
 		addr = allocate(size, curr_header);
 		printf("allocated %zu at %p\n", size, addr);
 	}
+	//or append a new page
 	else
 	{
-		//or append a new page
 		printf("no space left, adding a page\n");
 		curr_header = append_page(pagesize, size);
 		addr = allocate(size, curr_header);
