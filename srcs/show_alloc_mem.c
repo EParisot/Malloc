@@ -6,36 +6,61 @@
 /*   By: eparisot <eparisot@42.student.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/13 11:43:43 by eparisot          #+#    #+#             */
-/*   Updated: 2019/09/13 12:21:26 by eparisot         ###   ########.fr       */
+/*   Updated: 2019/09/14 18:52:39 by eparisot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/malloc.h"
 
+void			show_headers(t_header *curr_header)
+{
+	if (curr_header == g_mem_start || (curr_header->prev && curr_header->prev->page_id != curr_header->page_id))
+	{
+		if (curr_header == g_mem_start || curr_header->page_id == 0)
+		{
+			ft_putstr("TINY : ");
+			ft_putnbr_hex_p((uintmax_t)curr_header);
+			ft_putchar('\n');
+		}
+		else if (curr_header->page_id == 1)
+		{
+			ft_putstr("SMALL : ");
+			ft_putnbr_hex_p((uintmax_t)curr_header);
+			ft_putchar('\n');
+		}
+		else if (curr_header->page_id == 2)
+		{
+			ft_putstr("LARGE : ");
+			ft_putnbr_hex_p((uintmax_t)curr_header);
+			ft_putchar('\n');
+		}
+	}
+}
+
 void			show_alloc_mem(void)
 {
 	t_header	*curr_header;
-	void		*curr_pos;
-	int			i;
+	size_t		tot;
 
-
+	tot = 0;
 	curr_header = g_mem_start;
 	while (curr_header)
 	{
-		printf("header addr : %p, type : %d, is_free : %d, data size : %zu\n", \
-		curr_header, curr_header->type, curr_header->is_free, curr_header->size);
-		curr_pos = (void*)curr_header + sizeof(t_header);
+		show_headers(curr_header);
 		if (curr_header->is_free == 0)
 		{
-			i = 0;
-			while (i < curr_header->size)
-			{
-				printf("%p : %s\n", curr_pos, curr_pos);
-				++curr_pos;
-				++i;
-			}
+			ft_putnbr_hex_p((uintmax_t)(curr_header + sizeof(t_header)));
+			ft_putstr(" - ");
+			ft_putnbr_hex_p((uintmax_t)(curr_header + sizeof(t_header) + curr_header->size));
+			ft_putstr(" : ");
+			ft_putnbr(curr_header->size);
+			ft_putstr(" octets\n");
 		}
+		if (curr_header->is_free == 0)
+			tot += curr_header->size;
 		curr_header = curr_header->next;
 	}
-
+	ft_putstr("Total : ");
+	ft_putnbr(tot);
+	ft_putchar('\n');
 }

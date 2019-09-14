@@ -29,7 +29,7 @@ void test_show(void)
 	void	*test;
 	test = malloc(sizeof(char)*11);
 	ft_strcpy(test, "HelloWorld\0");
-	printf("%s\n", test);
+	//printf("%s\n", test);
 	show_alloc_mem();
 	free(test);
 }
@@ -57,8 +57,8 @@ int main()
 {
 	//test_str();
 	//test_double();
-	//test_show();
-	test_triple();
+	test_show();
+	//test_triple();
 	//while (1);
 	return 0;
 }

@@ -6,7 +6,7 @@
 /*   By: eparisot <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/24 11:36:57 by eparisot          #+#    #+#             */
-/*   Updated: 2019/09/14 17:53:01 by eparisot         ###   ########.fr       */
+/*   Updated: 2019/09/14 18:25:42 by eparisot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,6 @@ void			merge_chunks(t_header *header_l, t_header *header_r)
 	header_l->next = header_r->next;
 	if (header_r->next)
 		header_r->next->prev = header_l;
-	printf("merged %p and %p\n", header_l, header_r);
 }
 
 void			deallocate(t_header *curr_header)
@@ -105,7 +104,6 @@ void			deallocate(t_header *curr_header)
 
 	curr_page = curr_header->page_id;
 	curr_header->is_free = 1;
-	printf("free %zu at %p\n", curr_header->size, (void*)curr_header + sizeof(t_header));
 	//defragmentation
 	while (curr_header->prev && curr_header->prev->page_id == curr_page && \
 			curr_header->prev->is_free == 1)
@@ -133,7 +131,6 @@ void			clean_pages()
 			next_header->prev = curr_header->prev;
 		curr_header->prev->next = next_header;
 		// and destroy curr page
-		printf("cleaned page %d\n", curr_header->page_id);
 		if(munmap(curr_header, curr_header->size) != 0)
 			ft_putstr("free Error");
 	}
@@ -149,13 +146,11 @@ void			clean_mem(size_t pagesize)
 			ft_putstr("free Error");
 		if(munmap(g_mem_start, 3 * pagesize) != 0)
 			ft_putstr("free Error");
-		printf("cleaned memory\n");
 	}
 }
 
 void			free(void *ptr)
 {
-	printf("requested free at : %p\n", ptr);
 	size_t		pagesize;
 	t_header	*curr_header;
 
