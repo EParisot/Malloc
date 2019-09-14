@@ -6,7 +6,7 @@
 /*   By: eparisot <eparisot@42.student.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/23 17:46:38 by eparisot          #+#    #+#             */
-/*   Updated: 2019/09/14 18:24:55 by eparisot         ###   ########.fr       */
+/*   Updated: 2019/09/14 19:54:17 by eparisot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ int				init_memory(size_t pagesize)
 	if ((first_header = mmap(NULL, 3 * pagesize, PROT_READ | PROT_WRITE | \
 					PROT_EXEC, MAP_ANON | MAP_PRIVATE, -1, 0)) == MAP_FAILED)
 			return (-1);
-	first_header->page_id = 0;
 	first_header->type = 0;
 	first_header->size = 3 * pagesize - sizeof(t_header);
 	first_header->is_free = 1;
@@ -30,7 +29,6 @@ int				init_memory(size_t pagesize)
 	if ((second_header = mmap(NULL, 100 * pagesize, PROT_READ | PROT_WRITE | \
 					PROT_EXEC, MAP_ANON | MAP_PRIVATE, -1, 0)) == MAP_FAILED)
 			return (-1);
-	second_header->page_id = 1;
 	second_header->type = 1;
 	second_header->size = 100 * pagesize - sizeof(t_header);
 	second_header->is_free = 1;
@@ -45,7 +43,6 @@ void			build_header(void *addr, void *curr_header, void *next_header)
 	t_header	*new_header;
 
 	new_header = addr;
-	new_header->page_id = ((t_header*)addr)->page_id;
 	new_header->type = ((t_header*)addr)->type;
 	new_header->size = ((t_header*)addr)->size;
 	new_header->is_free = 1;
@@ -58,21 +55,40 @@ t_header		*append_page(size_t pagesize, size_t size)
 	t_header	*curr_header;
 	t_header	*new_header;
 	int			factor;
+	int			type;
 
-	factor = 1;
-	//calc pages needed
-	while (factor * pagesize < size + sizeof(t_header))
-		++factor;
-	//find last location
-	curr_header = g_mem_start;
-	while (curr_header->next)
-		curr_header = curr_header->next;
-	//append page
+	if (size < TINY)
+	{
+		type = 0;
+		factor = 3;
+		curr_header = g_mem_start;
+		while (curr_header->next->type < 1)
+			curr_header = curr_header->next;
+		
+	}
+	else if (size < LARGE)
+	{
+		type = 1;
+		factor = 100;
+		curr_header = g_mem_start;
+		while (curr_header->next->type < 2)
+			curr_header = curr_header->next;
+		
+	}
+	else
+	{
+		type = 2;
+		factor = 1;
+		while (factor * pagesize < size + sizeof(t_header))
+			++factor;
+		curr_header = g_mem_start;
+		while (curr_header->next)
+			curr_header = curr_header->next;
+	}
 	if ((new_header = mmap(NULL, factor * pagesize, PROT_READ | PROT_WRITE | \
 					PROT_EXEC, MAP_ANON | MAP_PRIVATE, -1, 0)) == MAP_FAILED)
 		return (NULL);
-	new_header->type = 2;
-	new_header->page_id = curr_header->page_id + 1;
+	new_header->type = type;
 	new_header->size = factor * pagesize - sizeof(t_header);
 	build_header(new_header, curr_header, NULL);
 	curr_header->next = new_header;
@@ -95,7 +111,6 @@ void			*allocate(size_t size, t_header *curr_header)
 		curr_header->size = size;
 		curr_header->next = (void*)curr_header + sizeof(t_header) + size;
 		curr_header->next->type = curr_header->type;
-		curr_header->next->page_id = curr_header->page_id;
 		curr_header->next->size = curr_size - size - sizeof(t_header);
 		build_header(curr_header->next, curr_header, curr_next);
 	}
@@ -111,14 +126,12 @@ t_header		*find_space(size_t size)
 		curr_type = 0;
 	else if (size < LARGE)
 		curr_type = 1;
+	else
+		curr_type = 2;
 	curr_header = g_mem_start;
-	while (curr_header)
+	while (curr_header->type == curr_type)
 	{
-		//if no TINY or SMALL, search in LARGES
-		if (curr_header->type == 2)
-			curr_type = 2;
-		if (curr_header->is_free && curr_header->type == curr_type && \
-			curr_header->size >= size + sizeof(t_header))
+		if (curr_header->is_free && curr_header->size >= size)
 			return (curr_header);
 		curr_header = curr_header->next;
 	}

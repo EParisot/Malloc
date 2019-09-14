@@ -6,7 +6,7 @@
 /*   By: eparisot <eparisot@42.student.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/13 11:43:43 by eparisot          #+#    #+#             */
-/*   Updated: 2019/09/14 18:52:39 by eparisot         ###   ########.fr       */
+/*   Updated: 2019/09/14 19:54:19 by eparisot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,21 @@
 
 void			show_headers(t_header *curr_header)
 {
-	if (curr_header == g_mem_start || (curr_header->prev && curr_header->prev->page_id != curr_header->page_id))
+	if (curr_header == g_mem_start || (curr_header->prev && curr_header->prev->type != curr_header->type))
 	{
-		if (curr_header == g_mem_start || curr_header->page_id == 0)
+		if (curr_header == g_mem_start || curr_header->type == 0)
 		{
 			ft_putstr("TINY : ");
 			ft_putnbr_hex_p((uintmax_t)curr_header);
 			ft_putchar('\n');
 		}
-		else if (curr_header->page_id == 1)
+		else if (curr_header->type == 1)
 		{
 			ft_putstr("SMALL : ");
 			ft_putnbr_hex_p((uintmax_t)curr_header);
 			ft_putchar('\n');
 		}
-		else if (curr_header->page_id == 2)
+		else if (curr_header->type == 2)
 		{
 			ft_putstr("LARGE : ");
 			ft_putnbr_hex_p((uintmax_t)curr_header);

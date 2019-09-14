@@ -6,7 +6,7 @@
 /*   By: eparisot <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/24 11:36:57 by eparisot          #+#    #+#             */
-/*   Updated: 2019/09/14 18:25:42 by eparisot         ###   ########.fr       */
+/*   Updated: 2019/09/14 19:54:18 by eparisot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,27 +30,27 @@ t_header		*find_header(void *ptr)
 t_header		*is_empty_page()
 {
 	t_header	*curr_header;
-	int			curr_id;
+	int			curr_type;
 	int			empty_flag;
 
-	curr_id = 0;
+	curr_type = 0;
 	empty_flag = 1;
 	curr_header = g_mem_start;
 	//go to end of mem
 	while (curr_header->next)
 	{
 		curr_header = curr_header->next;
-		curr_id = curr_header->page_id;
+		curr_type = curr_header->type;
 	}
 	//backward check if page is empty
 	while (curr_header)
 	{
-		curr_id = curr_header->page_id;
+		curr_type = curr_header->type;
 		if (curr_header->is_free == 0)
 			empty_flag = 0;
-		if ((curr_header->prev == NULL || curr_header->prev->page_id != curr_id) && empty_flag == 1)
+		if ((curr_header->prev == NULL || curr_header->prev->type != curr_type) && empty_flag == 1)
 			return (curr_header);
-		else if (curr_header->prev == NULL || curr_header->prev->page_id != curr_id)
+		else if (curr_header->prev == NULL || curr_header->prev->type != curr_type)
 			empty_flag = 1;
 		curr_header = curr_header->prev;
 	}
@@ -70,21 +70,21 @@ t_header		*is_empty_mem()
 		curr_header = curr_header->next;
 	}
 	last_page_header = g_mem_start;
-	while (last_page_header->page_id != 1)
+	while (last_page_header->type != 1)
 		last_page_header = last_page_header->next;
 	return (last_page_header);
 }
 
 t_header		*get_next_page(t_header *curr_header)
 {
-	int			curr_id;
+	int			curr_type;
 
-	curr_id = curr_header->page_id;
+	curr_type = curr_header->type;
 	while (curr_header)
 	{
-		if (curr_header->page_id != curr_id)
+		if (curr_header->type != curr_type)
 			return (curr_header);
-		curr_id = curr_header->page_id;
+		curr_type = curr_header->type;
 		curr_header = curr_header->next;
 	}
 	return (NULL);
@@ -100,18 +100,18 @@ void			merge_chunks(t_header *header_l, t_header *header_r)
 
 void			deallocate(t_header *curr_header)
 {
-	int			curr_page;
+	int			curr_type;
 
-	curr_page = curr_header->page_id;
+	curr_type = curr_header->type;
 	curr_header->is_free = 1;
 	//defragmentation
-	while (curr_header->prev && curr_header->prev->page_id == curr_page && \
+	while (curr_header->prev && curr_header->prev->type == curr_type && \
 			curr_header->prev->is_free == 1)
 	{
 		merge_chunks(curr_header->prev, curr_header);
 		curr_header = curr_header->prev;
 	}
-	while (curr_header->next && curr_header->next->page_id == curr_page && \
+	while (curr_header->next && curr_header->next->type == curr_type && \
 			curr_header->next->is_free == 1)
 	{
 		merge_chunks(curr_header, curr_header->next);
@@ -123,7 +123,7 @@ void			clean_pages()
 	t_header	*curr_header;
 	t_header	*next_header;
 
-	while ((curr_header = is_empty_page()) && curr_header->page_id > 1)
+	while ((curr_header = is_empty_page()) && curr_header->type > 1)
 	{
 		// find next page and link next to prev
 		next_header = get_next_page(curr_header);
