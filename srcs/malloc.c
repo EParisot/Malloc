@@ -6,13 +6,13 @@
 /*   By: eparisot <eparisot@42.student.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/23 17:46:38 by eparisot          #+#    #+#             */
-/*   Updated: 2019/09/15 16:48:38 by eparisot         ###   ########.fr       */
+/*   Updated: 2019/09/15 18:30:43 by eparisot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/malloc.h"
 
-t_header		*append_tiny(size_t pagesize, size_t size)
+t_header		*append_tiny(size_t pagesize)
 {
 	t_header	*curr_header;
 	t_header	*new_header;
@@ -35,7 +35,7 @@ t_header		*append_tiny(size_t pagesize, size_t size)
 	return (new_header);
 }
 
-t_header		*append_small(size_t pagesize, size_t size)
+t_header		*append_small(size_t pagesize)
 {
 	t_header	*curr_header;
 	t_header	*new_header;
@@ -88,9 +88,9 @@ t_header		*append_page(size_t pagesize, size_t size)
 	t_header	*new_header;
 
 	if (size < TINY)
-		new_header = append_tiny(pagesize, size);
+		new_header = append_tiny(pagesize);
 	else if (size < LARGE)
-		new_header = append_small(pagesize, size);
+		new_header = append_small(pagesize);
 	else
 		new_header = append_large(pagesize, size);
 	return (new_header);
@@ -101,12 +101,14 @@ void			*malloc(size_t size)
 	size_t		pagesize;
 	t_header	*curr_header;
 	void		*addr;
+	int			ret;
 
 	pagesize = getpagesize();
 	if (g_mem_start == NULL)
-		if (init_memory(pagesize) < 0)
+		if ((ret = init_memory(pagesize)) < 0)
 		{
-			free(g_mem_start + sizeof(t_header));
+			if (ret == -2)
+				free(g_mem_start + sizeof(t_header));
 			errno = ENOMEM;
 			return (NULL);
 		}
