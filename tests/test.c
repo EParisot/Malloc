@@ -73,15 +73,46 @@ void	test_bad_malloc()
 	test = malloc(SIZE_MAX + 1);
 }
 
+void test_smaller_realloc()
+{
+	char *test1;
+	char *test2;
+
+	test1 = malloc(59);
+	ft_strcpy(test1, "Hello world, what the fuck can i say !\0");
+	printf("%s\n", test1);
+	test2 = realloc(test1, 16);
+	ft_strcpy(test2, "Hello world\0");
+	printf("%s\n", test2);
+	free(test2);
+}
+
+void test_bigger_realloc()
+{
+	char *test1;
+	char *test2;
+
+	test1 = malloc(16);
+	ft_strcpy(test1, "Hello world\0");
+	printf("%s\n", test1);
+	test2 = realloc(test1, 59);
+	ft_strcpy(test2, "Hello world, what the fuck can i say !\0");
+	printf("%s\n", test2);
+	free(test2);
+}
+
+
 int main()
 {
 	//test_str();
 	//test_double();
 	//test_show();
-	test_triple();
+	//test_triple();
 	//test_empty_show();
 	//test_free_null();
 	//test_bad_malloc();
+	test_smaller_realloc();
+	test_bigger_realloc();
 	//while (1);
 	return 0;
 }

@@ -6,7 +6,7 @@
 #    By: eparisot <eparisot@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/10/30 19:40:33 by eparisot          #+#    #+#              #
-#    Updated: 2019/09/13 11:49:32 by eparisot         ###   ########.fr        #
+#    Updated: 2019/09/15 16:49:42 by eparisot         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,6 +18,8 @@ NAME	=	libft_malloc_$(HOSTTYPE).so
 LNK		=	libft_malloc.so
 
 SRCS	=	srcs/free.c \
+			srcs/free_utils.c \
+			srcs/malloc_utils.c \
 			srcs/malloc.c \
 			srcs/realloc.c \
 			srcs/show_alloc_mem.c
