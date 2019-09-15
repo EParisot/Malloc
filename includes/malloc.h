@@ -6,7 +6,7 @@
 /*   By: eparisot <eparisot@42.student.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/23 17:48:14 by eparisot          #+#    #+#             */
-/*   Updated: 2019/09/15 00:33:56 by eparisot         ###   ########.fr       */
+/*   Updated: 2019/09/15 11:34:20 by eparisot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include "../libft/libft.h"
 # include <unistd.h>
 # include <sys/mman.h>
+# include <errno.h>
 
 typedef struct			s_header
 {

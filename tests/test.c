@@ -56,12 +56,32 @@ void test_triple(void)
 	free(test3);
 }
 
+void	test_empty_show()
+{
+	show_alloc_mem();
+}
+
+void	test_free_null()
+{
+	free(NULL);
+}
+
+void	test_bad_malloc()
+{
+	void	*test;
+	//test = malloc(-42);
+	test = malloc(SIZE_MAX + 1);
+}
+
 int main()
 {
 	//test_str();
 	//test_double();
 	//test_show();
 	test_triple();
+	//test_empty_show();
+	//test_free_null();
+	//test_bad_malloc();
 	//while (1);
 	return 0;
 }

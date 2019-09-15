@@ -6,7 +6,7 @@
 /*   By: eparisot <eparisot@42.student.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/13 11:43:43 by eparisot          #+#    #+#             */
-/*   Updated: 2019/09/14 19:54:19 by eparisot         ###   ########.fr       */
+/*   Updated: 2019/09/15 11:58:27 by eparisot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 void			show_headers(t_header *curr_header)
 {
-	if (curr_header == g_mem_start || (curr_header->prev && curr_header->prev->type != curr_header->type))
+	if (curr_header == g_mem_start || \
+			(curr_header->prev && curr_header->prev->type != curr_header->type))
 	{
 		if (curr_header == g_mem_start || curr_header->type == 0)
 		{
@@ -51,7 +52,8 @@ void			show_alloc_mem(void)
 		{
 			ft_putnbr_hex_p((uintmax_t)(curr_header + sizeof(t_header)));
 			ft_putstr(" - ");
-			ft_putnbr_hex_p((uintmax_t)(curr_header + sizeof(t_header) + curr_header->size));
+			ft_putnbr_hex_p((uintmax_t)(curr_header + sizeof(t_header) + \
+					curr_header->size));
 			ft_putstr(" : ");
 			ft_putnbr(curr_header->size);
 			ft_putstr(" octets\n");
