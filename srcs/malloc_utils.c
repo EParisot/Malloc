@@ -6,7 +6,7 @@
 /*   By: eparisot <eparisot@42.student.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/23 17:46:38 by eparisot          #+#    #+#             */
-/*   Updated: 2019/09/15 16:50:50 by eparisot         ###   ########.fr       */
+/*   Updated: 2019/09/15 19:23:15 by eparisot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int				init_memory(size_t pagesize)
 	g_mem_start = first_header;
 	if ((second_header = mmap(NULL, 100 * pagesize, PROT_READ | PROT_WRITE | \
 					PROT_EXEC, MAP_ANON | MAP_PRIVATE, -1, 0)) == MAP_FAILED)
-		return (-1);
+		return (-2);
 	second_header->type = 1;
 	second_header->page_id = 0;
 	second_header->size = 100 * pagesize - sizeof(t_header);

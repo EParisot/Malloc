@@ -6,7 +6,7 @@
 /*   By: eparisot <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/24 11:36:57 by eparisot          #+#    #+#             */
-/*   Updated: 2019/09/15 16:48:40 by eparisot         ###   ########.fr       */
+/*   Updated: 2019/09/15 20:15:36 by eparisot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ t_header		*is_empty_mem(void)
 	t_header	*curr_header;
 
 	curr_header = g_mem_start;
-	while (curr_header->next)
+	while (curr_header && curr_header->next && curr_header->next->type < 2)
 	{
 		if (curr_header->is_free == 0)
 			return (NULL);
@@ -70,7 +70,7 @@ void			clean_mem(size_t pagesize)
 {
 	t_header	*last_header;
 
-	if ((last_header = is_empty_mem()) && last_header->next == NULL)
+	while ((last_header = is_empty_mem()))
 	{
 		if (munmap(last_header, 100 * pagesize) != 0)
 			ft_putstr("free Error\n");
@@ -90,9 +90,9 @@ void			free(void *ptr)
 	pagesize = getpagesize();
 	curr_header = find_header(ptr);
 	if (curr_header)
+	{
 		deallocate(curr_header);
-	else
-		ft_putstr("Error : not allocated\n");
-	clean_pages();
-	clean_mem(pagesize);
+		clean_pages();
+		clean_mem(pagesize);
+	}
 }

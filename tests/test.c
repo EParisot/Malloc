@@ -101,18 +101,33 @@ void test_bigger_realloc()
 	free(test2);
 }
 
+void	test_corr_2()
+{
+	int i;
+	char *addr;
+
+	i = 0;
+	while (i < 1024)
+	{
+		addr = (char*)malloc(1024);
+		addr[0] = 42;
+		free(addr);
+		i++;
+	}
+}
 
 int main()
 {
 	//test_str();
 	//test_double();
 	//test_show();
-	//test_triple();
+	test_triple();
 	//test_empty_show();
 	//test_free_null();
 	//test_bad_malloc();
 	test_smaller_realloc();
 	test_bigger_realloc();
+	test_corr_2();
 	//while (1);
 	return 0;
 }
