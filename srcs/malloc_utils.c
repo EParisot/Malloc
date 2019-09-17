@@ -6,7 +6,7 @@
 /*   By: eparisot <eparisot@42.student.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/23 17:46:38 by eparisot          #+#    #+#             */
-/*   Updated: 2019/09/15 19:23:15 by eparisot         ###   ########.fr       */
+/*   Updated: 2019/09/17 18:21:29 by eparisot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ int				init_memory(size_t pagesize)
 	t_header	*first_header;
 	t_header	*second_header;
 
-	if ((first_header = mmap(NULL, 3 * pagesize, PROT_READ | PROT_WRITE | \
-					PROT_EXEC, MAP_ANON | MAP_PRIVATE, -1, 0)) == MAP_FAILED)
+	if ((first_header = mmap(NULL, 3 * pagesize, PROT_READ | PROT_WRITE, \
+					MAP_ANON | MAP_PRIVATE, -1, 0)) == MAP_FAILED)
 		return (-1);
 	first_header->type = 0;
 	first_header->page_id = 0;
@@ -27,8 +27,8 @@ int				init_memory(size_t pagesize)
 	first_header->prev = NULL;
 	first_header->next = NULL;
 	g_mem_start = first_header;
-	if ((second_header = mmap(NULL, 100 * pagesize, PROT_READ | PROT_WRITE | \
-					PROT_EXEC, MAP_ANON | MAP_PRIVATE, -1, 0)) == MAP_FAILED)
+	if ((second_header = mmap(NULL, 100 * pagesize, PROT_READ | PROT_WRITE, \
+					MAP_ANON | MAP_PRIVATE, -1, 0)) == MAP_FAILED)
 		return (-2);
 	second_header->type = 1;
 	second_header->page_id = 0;

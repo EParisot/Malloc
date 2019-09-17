@@ -6,7 +6,7 @@
 /*   By: eparisot <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/24 11:36:57 by eparisot          #+#    #+#             */
-/*   Updated: 2019/09/15 20:15:36 by eparisot         ###   ########.fr       */
+/*   Updated: 2019/09/17 21:41:31 by eparisot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,12 +57,17 @@ t_header		*is_empty_mem(void)
 	t_header	*curr_header;
 
 	curr_header = g_mem_start;
-	while (curr_header && curr_header->next && curr_header->next->type < 2)
+	while (curr_header->next && curr_header->next->type < 2)
 	{
 		if (curr_header->is_free == 0)
 			return (NULL);
 		curr_header = curr_header->next;
 	}
+	if (curr_header->is_free == 0)
+		return (NULL);
+	while (curr_header->prev && curr_header->prev->type == curr_header->type &&\
+			curr_header->prev->page_id == curr_header->page_id)
+		curr_header = curr_header->prev;
 	return (curr_header);
 }
 
@@ -72,11 +77,25 @@ void			clean_mem(size_t pagesize)
 
 	while ((last_header = is_empty_mem()))
 	{
-		if (munmap(last_header, 100 * pagesize) != 0)
-			ft_putstr("free Error\n");
-		if (munmap(g_mem_start, 3 * pagesize) != 0)
-			ft_putstr("free Error\n");
-		g_mem_start = NULL;
+		if (last_header->type == 1)
+		{
+			last_header->prev->next = NULL;
+			if (munmap(last_header, 100 * pagesize) != 0)
+				ft_putstr("free Error\n");
+			continue;
+		}
+		else if (last_header->type == 0)
+		{
+			if (last_header->prev)
+				last_header->prev->next = NULL;
+			if (munmap(last_header, 3 * pagesize) != 0)
+				ft_putstr("free Error\n");
+		}
+		if (last_header == g_mem_start)
+		{
+			g_mem_start = NULL;
+			break;
+		}
 	}
 }
 
@@ -84,7 +103,6 @@ void			free(void *ptr)
 {
 	size_t		pagesize;
 	t_header	*curr_header;
-
 	if (ptr == NULL)
 		return ;
 	pagesize = getpagesize();
@@ -92,7 +110,9 @@ void			free(void *ptr)
 	if (curr_header)
 	{
 		deallocate(curr_header);
-		clean_pages();
-		clean_mem(pagesize);
+		if (curr_header->type == 2)
+			clean_pages();
+		else
+			clean_mem(pagesize);
 	}
 }
