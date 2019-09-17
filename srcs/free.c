@@ -6,7 +6,7 @@
 /*   By: eparisot <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/24 11:36:57 by eparisot          #+#    #+#             */
-/*   Updated: 2019/09/17 21:41:31 by eparisot         ###   ########.fr       */
+/*   Updated: 2019/09/18 00:23:30 by eparisot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void			clean_pages(void)
 		if (next_header)
 			next_header->prev = curr_header->prev;
 		curr_header->prev->next = next_header;
-		if (munmap(curr_header, curr_header->size) != 0)
+		if (munmap((void*)curr_header, curr_header->size + sizeof(t_header)))
 			ft_putstr("free Error\n");
 	}
 }
@@ -80,7 +80,7 @@ void			clean_mem(size_t pagesize)
 		if (last_header->type == 1)
 		{
 			last_header->prev->next = NULL;
-			if (munmap(last_header, 100 * pagesize) != 0)
+			if (munmap((void*)last_header, 100 * pagesize))
 				ft_putstr("free Error\n");
 			continue;
 		}
@@ -88,7 +88,7 @@ void			clean_mem(size_t pagesize)
 		{
 			if (last_header->prev)
 				last_header->prev->next = NULL;
-			if (munmap(last_header, 3 * pagesize) != 0)
+			if (munmap((void*)last_header, 3 * pagesize))
 				ft_putstr("free Error\n");
 		}
 		if (last_header == g_mem_start)
@@ -103,9 +103,10 @@ void			free(void *ptr)
 {
 	size_t		pagesize;
 	t_header	*curr_header;
+
+	pagesize = getpagesize();
 	if (ptr == NULL)
 		return ;
-	pagesize = getpagesize();
 	curr_header = find_header(ptr);
 	if (curr_header)
 	{

@@ -118,13 +118,13 @@ void	test_corr_2()
 
 int main()
 {
-	//test_str();
-	//test_double();
-	//test_show();
+	test_str();
+	test_double();
+	test_show();
 	test_triple();
-	//test_empty_show();
-	//test_free_null();
-	//test_bad_malloc();
+	test_empty_show();
+	test_free_null();
+	test_bad_malloc();
 	test_smaller_realloc();
 	test_bigger_realloc();
 	test_corr_2();

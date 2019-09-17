@@ -6,7 +6,7 @@
 /*   By: eparisot <eparisot@42.student.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/23 17:46:38 by eparisot          #+#    #+#             */
-/*   Updated: 2019/09/17 19:45:30 by eparisot         ###   ########.fr       */
+/*   Updated: 2019/09/18 00:30:51 by eparisot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ t_header		*append_tiny(size_t pagesize)
 	while (curr_header->next && curr_header->next->type < 1)
 		curr_header = curr_header->next;
 	if ((new_header = mmap(NULL, factor * pagesize, PROT_READ | PROT_WRITE, \
-					MAP_ANON | MAP_PRIVATE, -1, 0)) == MAP_FAILED)
+					MAP_ANONYMOUS | MAP_PRIVATE, -1, 0)) == MAP_FAILED)
 		return (NULL);
 	new_header->type = type;
 	new_header->page_id = curr_header->page_id + 1;
@@ -48,7 +48,7 @@ t_header		*append_small(size_t pagesize)
 	while (curr_header->next && curr_header->next->type < 2)
 		curr_header = curr_header->next;
 	if ((new_header = mmap(NULL, factor * pagesize, PROT_READ | PROT_WRITE, \
-					MAP_ANON | MAP_PRIVATE, -1, 0)) == MAP_FAILED)
+					MAP_ANONYMOUS | MAP_PRIVATE, -1, 0)) == MAP_FAILED)
 		return (NULL);
 	new_header->type = type;
 	new_header->page_id = curr_header->page_id + 1;
@@ -73,7 +73,7 @@ t_header		*append_large(size_t pagesize, size_t size)
 	while (curr_header->next)
 		curr_header = curr_header->next;
 	if ((new_header = mmap(NULL, factor * pagesize, PROT_READ | PROT_WRITE, \
-					MAP_ANON | MAP_PRIVATE, -1, 0)) == MAP_FAILED)
+					MAP_ANONYMOUS | MAP_PRIVATE, -1, 0)) == MAP_FAILED)
 		return (NULL);
 	new_header->type = type;
 	new_header->page_id = curr_header->page_id + 1;
