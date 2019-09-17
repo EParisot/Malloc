@@ -6,7 +6,7 @@
 /*   By: eparisot <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/24 11:36:57 by eparisot          #+#    #+#             */
-/*   Updated: 2019/09/18 00:23:30 by eparisot         ###   ########.fr       */
+/*   Updated: 2019/09/18 01:12:53 by eparisot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ void			clean_mem(size_t pagesize)
 			last_header->prev->next = NULL;
 			if (munmap((void*)last_header, 100 * pagesize))
 				ft_putstr("free Error\n");
-			continue;
+			continue ;
 		}
 		else if (last_header->type == 0)
 		{
@@ -94,7 +94,7 @@ void			clean_mem(size_t pagesize)
 		if (last_header == g_mem_start)
 		{
 			g_mem_start = NULL;
-			break;
+			break ;
 		}
 	}
 }
@@ -113,7 +113,6 @@ void			free(void *ptr)
 		deallocate(curr_header);
 		if (curr_header->type == 2)
 			clean_pages();
-		else
-			clean_mem(pagesize);
+		clean_mem(pagesize);
 	}
 }
