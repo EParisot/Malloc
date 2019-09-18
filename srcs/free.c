@@ -6,7 +6,7 @@
 /*   By: eparisot <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/24 11:36:57 by eparisot          #+#    #+#             */
-/*   Updated: 2019/09/18 11:36:59 by eparisot         ###   ########.fr       */
+/*   Updated: 2019/09/18 17:13:34 by eparisot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,16 +59,16 @@ t_header		*is_empty_mem(void)
 	curr_header = g_mem_start;
 	while (curr_header->next && curr_header->next->type < 2)
 	{
-		if (curr_header->is_free == 0)
+		if (curr_header->page_id > 0 && curr_header->is_free == 0)
 			return (NULL);
 		curr_header = curr_header->next;
 	}
-	if (curr_header->is_free == 0)
-		return (NULL);
 	while (curr_header->prev && curr_header->prev->type == curr_header->type &&\
 			curr_header->prev->page_id == curr_header->page_id)
 		curr_header = curr_header->prev;
-	return (curr_header);
+	if (curr_header->page_id != 0)
+		return (curr_header);
+	return (NULL);
 }
 
 void			clean_mem(size_t pagesize)
@@ -113,7 +113,6 @@ void			free(void *ptr)
 		deallocate(curr_header);
 		if (curr_header->type == 2)
 			clean_pages();
-		//clean_mem(pagesize);
+		clean_mem(pagesize);
 	}
-	ft_putnbr(sizeof(t_header));
 }
