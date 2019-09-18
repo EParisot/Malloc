@@ -6,7 +6,7 @@
 /*   By: eparisot <eparisot@42.student.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/23 17:48:14 by eparisot          #+#    #+#             */
-/*   Updated: 2019/09/18 11:02:17 by eparisot         ###   ########.fr       */
+/*   Updated: 2019/09/18 11:36:14 by eparisot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@
 
 typedef struct			s_header
 {
-	int					type;
-	int					page_id;
+	size_t				type;
+	size_t				page_id;
 	size_t				size;
 	int					is_free;
 	struct s_header		*prev;

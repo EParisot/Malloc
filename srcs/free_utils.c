@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free_utils.c                                             :+:      :+:    :+:   */
+/*   free_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: eparisot <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/24 11:36:57 by eparisot          #+#    #+#             */
-/*   Updated: 2019/09/15 16:50:25 by eparisot         ###   ########.fr       */
+/*   Updated: 2019/09/18 11:37:38 by eparisot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ t_header		*find_header(void *ptr)
 
 t_header		*get_next_page(t_header *curr_header)
 {
-	int			curr_type;
+	size_t		curr_type;
 
 	curr_type = curr_header->type;
 	while (curr_header)
@@ -52,7 +52,7 @@ void			merge_chunks(t_header *header_l, t_header *header_r)
 
 void			deallocate(t_header *curr_header)
 {
-	int			curr_type;
+	size_t		curr_type;
 
 	curr_type = curr_header->type;
 	curr_header->is_free = 1;

@@ -6,7 +6,7 @@
 /*   By: eparisot <eparisot@42.student.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/23 17:46:38 by eparisot          #+#    #+#             */
-/*   Updated: 2019/09/18 00:31:08 by eparisot         ###   ########.fr       */
+/*   Updated: 2019/09/18 11:38:11 by eparisot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ void			*allocate(size_t size, t_header *curr_header)
 t_header		*find_space(size_t size)
 {
 	t_header	*curr_header;
-	int			curr_type;
+	size_t		curr_type;
 
 	if (size < TINY)
 		curr_type = 0;
