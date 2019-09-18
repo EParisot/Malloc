@@ -6,7 +6,7 @@
 /*   By: eparisot <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/24 11:36:57 by eparisot          #+#    #+#             */
-/*   Updated: 2019/09/18 01:12:53 by eparisot         ###   ########.fr       */
+/*   Updated: 2019/09/18 10:40:13 by eparisot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,6 @@ void			free(void *ptr)
 		deallocate(curr_header);
 		if (curr_header->type == 2)
 			clean_pages();
-		clean_mem(pagesize);
+		//clean_mem(pagesize);
 	}
 }

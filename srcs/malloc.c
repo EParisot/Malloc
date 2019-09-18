@@ -6,7 +6,7 @@
 /*   By: eparisot <eparisot@42.student.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/23 17:46:38 by eparisot          #+#    #+#             */
-/*   Updated: 2019/09/18 00:30:51 by eparisot         ###   ########.fr       */
+/*   Updated: 2019/09/18 11:23:02 by eparisot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,8 @@ void			*malloc(size_t size)
 			errno = ENOMEM;
 			return (NULL);
 		}
+	while (size % 16)
+		++size;
 	curr_header = find_space(size);
 	if (size < LARGE && curr_header)
 		addr = allocate(size, curr_header);

@@ -6,7 +6,7 @@
 /*   By: eparisot <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/24 11:39:01 by eparisot          #+#    #+#             */
-/*   Updated: 2019/09/18 00:44:45 by eparisot         ###   ########.fr       */
+/*   Updated: 2019/09/18 10:55:43 by eparisot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ void				*fresh_allocate(void *ptr, t_header *curr_header, \
 			return (NULL);
 		}
 		addr = allocate(size, curr_header);
+		ft_memmove(addr, ptr, size);
 	}
 	free(ptr);
 	return (addr);

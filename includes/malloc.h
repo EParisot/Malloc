@@ -6,7 +6,7 @@
 /*   By: eparisot <eparisot@42.student.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/23 17:48:14 by eparisot          #+#    #+#             */
-/*   Updated: 2019/09/18 00:47:40 by eparisot         ###   ########.fr       */
+/*   Updated: 2019/09/18 11:02:17 by eparisot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define MALLOC_H
 
 # define TINY 60
-# define LARGE 4056
+# define LARGE 4096 - sizeof(t_header)
 
 # include "../libft/libft.h"
 # include <unistd.h>
