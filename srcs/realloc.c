@@ -6,7 +6,7 @@
 /*   By: eparisot <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/24 11:39:01 by eparisot          #+#    #+#             */
-/*   Updated: 2019/09/18 18:26:30 by eparisot         ###   ########.fr       */
+/*   Updated: 2019/09/23 16:39:06 by eparisot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,13 @@ void				*fresh_allocate(void *ptr, t_header *curr_header, \
 {
 	void			*addr;
 
+	addr = NULL;
 	curr_header = find_space(size);
 	if (size < LARGE && curr_header)
 	{
 		addr = allocate(size, curr_header);
 		ft_memmove(addr, ptr, ptr_size);
+		free(ptr);
 	}
 	else
 	{
@@ -32,8 +34,8 @@ void				*fresh_allocate(void *ptr, t_header *curr_header, \
 		}
 		addr = allocate(size, curr_header);
 		ft_memmove(addr, ptr, ptr_size);
+		free(ptr);
 	}
-	free(ptr);
 	return (addr);
 }
 
