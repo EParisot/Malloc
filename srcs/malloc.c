@@ -6,14 +6,14 @@
 /*   By: eparisot <eparisot@42.student.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/23 17:46:38 by eparisot          #+#    #+#             */
-/*   Updated: 2019/09/18 18:26:44 by eparisot         ###   ########.fr       */
+/*   Updated: 2019/09/23 19:30:47 by eparisot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/malloc.h"
 
 t_header		*append_tiny(size_t pagesize)
-{
+{write(0, "requested tiny\n", 17);
 	t_header	*curr_header;
 	t_header	*new_header;
 	int			factor;
@@ -24,8 +24,8 @@ t_header		*append_tiny(size_t pagesize)
 	curr_header = g_mem_start;
 	while (curr_header->next && curr_header->next->type < 1)
 		curr_header = curr_header->next;
-	if ((new_header = mmap(NULL, factor * pagesize, PROT_READ | PROT_WRITE, \
-					MAP_ANONYMOUS | MAP_PRIVATE, -1, 0)) == MAP_FAILED)
+	if ((new_header = mmap(NULL, factor * pagesize, PROT_READ | PROT_WRITE | \
+				PROT_EXEC, MAP_ANONYMOUS | MAP_PRIVATE, -1, 0)) == MAP_FAILED)
 		return (NULL);
 	new_header->type = type;
 	new_header->page_id = curr_header->page_id + 1;
@@ -36,7 +36,7 @@ t_header		*append_tiny(size_t pagesize)
 }
 
 t_header		*append_small(size_t pagesize)
-{
+{write(0, "requested small\n", 17);
 	t_header	*curr_header;
 	t_header	*new_header;
 	int			factor;
@@ -47,8 +47,8 @@ t_header		*append_small(size_t pagesize)
 	curr_header = g_mem_start;
 	while (curr_header->next && curr_header->next->type < 2)
 		curr_header = curr_header->next;
-	if ((new_header = mmap(NULL, factor * pagesize, PROT_READ | PROT_WRITE, \
-					MAP_ANONYMOUS | MAP_PRIVATE, -1, 0)) == MAP_FAILED)
+	if ((new_header = mmap(NULL, factor * pagesize, PROT_READ | PROT_WRITE | \
+				PROT_EXEC, MAP_ANONYMOUS | MAP_PRIVATE, -1, 0)) == MAP_FAILED)
 		return (NULL);
 	new_header->type = type;
 	new_header->page_id = curr_header->page_id + 1;
@@ -59,7 +59,7 @@ t_header		*append_small(size_t pagesize)
 }
 
 t_header		*append_large(size_t pagesize, size_t size)
-{
+{write(0, "requested large\n", 17);
 	t_header	*curr_header;
 	t_header	*new_header;
 	int			factor;
@@ -72,8 +72,8 @@ t_header		*append_large(size_t pagesize, size_t size)
 	curr_header = g_mem_start;
 	while (curr_header->next)
 		curr_header = curr_header->next;
-	if ((new_header = mmap(NULL, factor * pagesize, PROT_READ | PROT_WRITE, \
-					MAP_ANONYMOUS | MAP_PRIVATE, -1, 0)) == MAP_FAILED)
+	if ((new_header = mmap(NULL, factor * pagesize, PROT_READ | PROT_WRITE | \
+				PROT_EXEC, MAP_ANONYMOUS | MAP_PRIVATE, -1, 0)) == MAP_FAILED)
 		return (NULL);
 	new_header->type = type;
 	new_header->page_id = curr_header->page_id + 1;
@@ -84,7 +84,7 @@ t_header		*append_large(size_t pagesize, size_t size)
 }
 
 t_header		*append_page(size_t pagesize, size_t size)
-{
+{write(0, "requested page\n", 17);
 	t_header	*new_header;
 
 	if (size < TINY)
@@ -97,7 +97,7 @@ t_header		*append_page(size_t pagesize, size_t size)
 }
 
 void			*malloc(size_t size)
-{
+{write(0, "requested malloc\n", 17);ft_putnbr(size);ft_putchar('\n');
 	size_t		pagesize;
 	t_header	*curr_header;
 	void		*addr;
@@ -125,6 +125,6 @@ void			*malloc(size_t size)
 			return (NULL);
 		}
 		addr = allocate(size, curr_header);
-	}
+	}ft_putnbr_hex_p((uintmax_t)addr);ft_putchar('\n');//show_alloc_mem();
 	return (addr);
 }

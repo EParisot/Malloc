@@ -6,7 +6,7 @@
 /*   By: eparisot <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/24 11:39:01 by eparisot          #+#    #+#             */
-/*   Updated: 2019/09/23 16:39:06 by eparisot         ###   ########.fr       */
+/*   Updated: 2019/09/23 19:30:20 by eparisot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void				*fresh_allocate(void *ptr, t_header *curr_header, \
 								size_t size, size_t pagesize, size_t ptr_size)
-{
+{write(0, "requested realloc\n", 18);
 	void			*addr;
 
 	addr = NULL;

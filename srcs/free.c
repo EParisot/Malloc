@@ -6,7 +6,7 @@
 /*   By: eparisot <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/24 11:36:57 by eparisot          #+#    #+#             */
-/*   Updated: 2019/09/18 17:13:34 by eparisot         ###   ########.fr       */
+/*   Updated: 2019/09/23 18:51:37 by eparisot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ void			free(void *ptr)
 {
 	size_t		pagesize;
 	t_header	*curr_header;
-
+write(0, "requested free\n", 15);
 	pagesize = getpagesize();
 	if (ptr == NULL)
 		return ;
