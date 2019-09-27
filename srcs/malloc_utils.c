@@ -6,7 +6,7 @@
 /*   By: eparisot <eparisot@42.student.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/23 17:46:38 by eparisot          #+#    #+#             */
-/*   Updated: 2019/09/23 19:12:24 by eparisot         ###   ########.fr       */
+/*   Updated: 2019/09/27 17:09:35 by eparisot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,22 +17,22 @@ int				init_memory(size_t pagesize)
 	t_header	*first_header;
 	t_header	*second_header;
 
-	if ((first_header = mmap(NULL, 3 * pagesize, PROT_READ | PROT_WRITE | \
+	if ((first_header = mmap(NULL, T_NB * pagesize, PROT_READ | PROT_WRITE | \
 				PROT_EXEC, MAP_ANONYMOUS | MAP_PRIVATE, -1, 0)) == MAP_FAILED)
 		return (-1);
 	first_header->type = 0;
 	first_header->page_id = 0;
-	first_header->size = 3 * pagesize - sizeof(t_header);
+	first_header->size = T_NB * pagesize - sizeof(t_header);
 	first_header->is_free = 1;
 	first_header->prev = NULL;
 	first_header->next = NULL;
 	g_mem_start = first_header;
-	if ((second_header = mmap(NULL, 100 * pagesize, PROT_READ | PROT_WRITE | \
+	if ((second_header = mmap(NULL, S_NB * pagesize, PROT_READ | PROT_WRITE | \
 				PROT_EXEC, MAP_ANONYMOUS | MAP_PRIVATE, -1, 0)) == MAP_FAILED)
 		return (-2);
 	second_header->type = 1;
 	second_header->page_id = 0;
-	second_header->size = 100 * pagesize - sizeof(t_header);
+	second_header->size = S_NB * pagesize - sizeof(t_header);
 	second_header->is_free = 1;
 	second_header->prev = first_header;
 	second_header->next = NULL;
@@ -41,7 +41,7 @@ int				init_memory(size_t pagesize)
 }
 
 void			build_header(void *addr, void *curr_header, void *next_header)
-{write(0, "new header\n", 11);
+{
 	t_header	*new_header;
 
 	new_header = addr;
@@ -54,7 +54,7 @@ void			build_header(void *addr, void *curr_header, void *next_header)
 }
 
 void			*allocate(size_t size, t_header *curr_header)
-{write(0, "allocated\n", 10);
+{
 	size_t		curr_size;
 	t_header	*curr_next;
 
@@ -93,4 +93,3 @@ t_header		*find_space(size_t size)
 	}
 	return (NULL);
 }
-

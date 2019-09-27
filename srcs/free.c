@@ -6,7 +6,7 @@
 /*   By: eparisot <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/24 11:36:57 by eparisot          #+#    #+#             */
-/*   Updated: 2019/09/23 18:51:37 by eparisot         ###   ########.fr       */
+/*   Updated: 2019/09/27 16:50:53 by eparisot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 t_header		*is_empty_page(void)
 {
 	t_header	*curr_header;
-	size_t			curr_id;
+	size_t		curr_id;
 	int			empty_flag;
 
 	empty_flag = 1;
@@ -103,7 +103,7 @@ void			free(void *ptr)
 {
 	size_t		pagesize;
 	t_header	*curr_header;
-write(0, "requested free\n", 15);
+
 	pagesize = getpagesize();
 	if (ptr == NULL)
 		return ;
