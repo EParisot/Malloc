@@ -24,8 +24,8 @@ t_header		*append_tiny(size_t pagesize)
 	curr_header = g_mem_start;
 	while (curr_header->next && curr_header->next->type < 1)
 		curr_header = curr_header->next;
-	if ((new_header = mmap(NULL, factor * pagesize, PROT_READ | PROT_WRITE | \
-				PROT_EXEC, MAP_ANONYMOUS | MAP_PRIVATE, -1, 0)) == MAP_FAILED)
+	if ((new_header = mmap(NULL, factor * pagesize, PROT_READ | PROT_WRITE, \
+						MAP_ANONYMOUS | MAP_PRIVATE, -1, 0)) == MAP_FAILED)
 		return (NULL);
 	new_header->type = type;
 	new_header->page_id = curr_header->page_id + 1;
@@ -47,8 +47,8 @@ t_header		*append_small(size_t pagesize)
 	curr_header = g_mem_start;
 	while (curr_header->next && curr_header->next->type < 2)
 		curr_header = curr_header->next;
-	if ((new_header = mmap(NULL, factor * pagesize, PROT_READ | PROT_WRITE | \
-				PROT_EXEC, MAP_ANONYMOUS | MAP_PRIVATE, -1, 0)) == MAP_FAILED)
+	if ((new_header = mmap(NULL, factor * pagesize, PROT_READ | PROT_WRITE, \
+						MAP_ANONYMOUS | MAP_PRIVATE, -1, 0)) == MAP_FAILED)
 		return (NULL);
 	new_header->type = type;
 	new_header->page_id = curr_header->page_id + 1;
@@ -72,8 +72,8 @@ t_header		*append_large(size_t pagesize, size_t size)
 	curr_header = g_mem_start;
 	while (curr_header->next)
 		curr_header = curr_header->next;
-	if ((new_header = mmap(NULL, factor * pagesize, PROT_READ | PROT_WRITE | \
-				PROT_EXEC, MAP_ANONYMOUS | MAP_PRIVATE, -1, 0)) == MAP_FAILED)
+	if ((new_header = mmap(NULL, factor * pagesize, PROT_READ | PROT_WRITE, \
+						MAP_ANONYMOUS | MAP_PRIVATE, -1, 0)) == MAP_FAILED)
 		return (NULL);
 	new_header->type = type;
 	new_header->page_id = curr_header->page_id + 1;

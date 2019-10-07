@@ -28,9 +28,10 @@ typedef struct			s_header
 	size_t				type;
 	size_t				page_id;
 	size_t				size;
-	int					is_free;
 	struct s_header		*prev;
 	struct s_header		*next;
+	int					is_free;
+	char*				align[4];
 }						t_header;
 
 t_header				*g_mem_start;
