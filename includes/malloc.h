@@ -38,7 +38,6 @@ t_header				*g_mem_start;
 
 t_header				*find_header(void *ptr);
 t_header				*get_next_page(t_header *curr_header);
-void					merge_chunks(t_header *header_l, t_header *header_r);
 void					deallocate(t_header *curr_header);
 t_header				*is_empty_page(void);
 void					clean_pages(void);

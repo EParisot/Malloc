@@ -42,29 +42,10 @@ t_header		*get_next_page(t_header *curr_header)
 	return (NULL);
 }
 
-void			merge_chunks(t_header *header_l, t_header *header_r)
-{
-	header_l->size += sizeof(t_header) + header_r->size;
-	header_l->next = header_r->next;
-	if (header_r->next)
-		header_r->next->prev = header_l;
-}
-
 void			deallocate(t_header *curr_header)
 {
 	size_t		curr_type;
 
 	curr_type = curr_header->type;
 	curr_header->is_free = 1;
-	while (curr_header->prev && curr_header->prev->type == curr_type && \
-			curr_header->prev->is_free == 1)
-	{
-		merge_chunks(curr_header->prev, curr_header);
-		curr_header = curr_header->prev;
-	}
-	while (curr_header->next && curr_header->next->type == curr_type && \
-			curr_header->next->is_free == 1)
-	{
-		merge_chunks(curr_header, curr_header->next);
-	}
 }
