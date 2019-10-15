@@ -6,17 +6,17 @@
 /*   By: eparisot <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/24 11:36:57 by eparisot          #+#    #+#             */
-/*   Updated: 2019/10/14 10:50:32 by eparisot         ###   ########.fr       */
+/*   Updated: 2019/10/15 14:42:36 by eparisot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/malloc.h"
 
-t_header		*is_empty_page(void)
+static t_header		*is_empty_page(void)
 {
-	t_header	*curr_header;
-	size_t		curr_id;
-	int			empty_flag;
+	t_header		*curr_header;
+	size_t			curr_id;
+	int				empty_flag;
 
 	empty_flag = 1;
 	curr_header = g_mem_start;
@@ -36,10 +36,10 @@ t_header		*is_empty_page(void)
 	return (NULL);
 }
 
-void			clean_pages(void)
+static void			clean_pages(void)
 {
-	t_header	*curr_header;
-	t_header	*next_header;
+	t_header		*curr_header;
+	t_header		*next_header;
 
 	while ((curr_header = is_empty_page()))
 	{
@@ -52,9 +52,9 @@ void			clean_pages(void)
 	}
 }
 
-t_header		*is_empty_mem(void)
+static t_header		*is_empty_mem(void)
 {
-	t_header	*curr_header;
+	t_header		*curr_header;
 
 	curr_header = g_mem_start;
 	while (curr_header->next && curr_header->next->type < 2)
@@ -71,9 +71,9 @@ t_header		*is_empty_mem(void)
 	return (NULL);
 }
 
-void			clean_mem(size_t pagesize)
+static void			clean_mem(size_t pagesize)
 {
-	t_header	*last_header;
+	t_header		*last_header;
 
 	while ((last_header = is_empty_mem()))
 	{
@@ -99,10 +99,10 @@ void			clean_mem(size_t pagesize)
 	}
 }
 
-void			free(void *ptr)
+void				free(void *ptr)
 {
-	size_t		pagesize;
-	t_header	*curr_header;
+	size_t			pagesize;
+	t_header		*curr_header;
 
 	pagesize = getpagesize();
 	if (ptr == NULL)

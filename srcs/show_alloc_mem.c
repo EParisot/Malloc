@@ -6,13 +6,13 @@
 /*   By: eparisot <eparisot@42.student.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/13 11:43:43 by eparisot          #+#    #+#             */
-/*   Updated: 2019/09/15 11:58:27 by eparisot         ###   ########.fr       */
+/*   Updated: 2019/10/15 14:41:56 by eparisot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/malloc.h"
 
-void			show_headers(t_header *curr_header)
+static void		show_headers(t_header *curr_header)
 {
 	if (curr_header == g_mem_start || \
 			(curr_header->prev && curr_header->prev->type != curr_header->type))
