@@ -6,13 +6,13 @@
 /*   By: eparisot <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/24 11:39:01 by eparisot          #+#    #+#             */
-/*   Updated: 2019/09/27 16:50:26 by eparisot         ###   ########.fr       */
+/*   Updated: 2019/10/15 14:41:23 by eparisot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/malloc.h"
 
-void				*fresh_allocate(void *ptr, t_header *curr_header, \
+static void			*fresh_allocate(void *ptr, t_header *curr_header, \
 								size_t size, size_t ptr_size)
 {
 	void			*addr;

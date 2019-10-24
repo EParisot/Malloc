@@ -6,18 +6,18 @@
 /*   By: eparisot <eparisot@42.student.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/23 17:46:38 by eparisot          #+#    #+#             */
-/*   Updated: 2019/10/14 10:48:37 by eparisot         ###   ########.fr       */
+/*   Updated: 2019/10/15 14:44:36 by eparisot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/malloc.h"
 
-t_header		*append_tiny(size_t pagesize)
+static t_header		*append_tiny(size_t pagesize)
 {
-	t_header	*curr_header;
-	t_header	*new_header;
-	int			factor;
-	int			type;
+	t_header		*curr_header;
+	t_header		*new_header;
+	int				factor;
+	int				type;
 
 	type = 0;
 	factor = T_NB;
@@ -35,12 +35,12 @@ t_header		*append_tiny(size_t pagesize)
 	return (new_header);
 }
 
-t_header		*append_small(size_t pagesize)
+static t_header		*append_small(size_t pagesize)
 {
-	t_header	*curr_header;
-	t_header	*new_header;
-	int			factor;
-	int			type;
+	t_header		*curr_header;
+	t_header		*new_header;
+	int				factor;
+	int				type;
 
 	type = 1;
 	factor = S_NB;
@@ -58,12 +58,12 @@ t_header		*append_small(size_t pagesize)
 	return (new_header);
 }
 
-t_header		*append_large(size_t pagesize, size_t size)
+static t_header		*append_large(size_t pagesize, size_t size)
 {
-	t_header	*curr_header;
-	t_header	*new_header;
-	int			factor;
-	int			type;
+	t_header		*curr_header;
+	t_header		*new_header;
+	int				factor;
+	int				type;
 
 	type = 2;
 	factor = 1;
@@ -83,9 +83,9 @@ t_header		*append_large(size_t pagesize, size_t size)
 	return (new_header);
 }
 
-t_header		*append_page(size_t pagesize, size_t size)
+t_header			*append_page(size_t pagesize, size_t size)
 {
-	t_header	*new_header;
+	t_header		*new_header;
 
 	if (size < TINY)
 		new_header = append_tiny(pagesize);
@@ -96,12 +96,12 @@ t_header		*append_page(size_t pagesize, size_t size)
 	return (new_header);
 }
 
-void			*malloc(size_t size)
+void				*malloc(size_t size)
 {
-	size_t		pagesize;
-	t_header	*curr_header;
-	void		*addr;
-	int			ret;
+	size_t			pagesize;
+	t_header		*curr_header;
+	void			*addr;
+	int				ret;
 
 	pagesize = getpagesize();
 	if (g_mem_start == NULL)
