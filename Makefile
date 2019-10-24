@@ -6,7 +6,7 @@
 #    By: eparisot <eparisot@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/10/30 19:40:33 by eparisot          #+#    #+#              #
-#    Updated: 2019/09/27 16:06:09 by eparisot         ###   ########.fr        #
+#    Updated: 2019/10/24 19:42:11 by eparisot         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,8 +33,6 @@ LIBS	=	libft/libft.a \
 CFLAGS	=	-Wall -Wextra -Werror
 LDFLAGS =	-fPIC -shared
 
-RM		=	rm -f
-
 all		:	$(LIBS) $(NAME) $(LNK)
 
 $(LNK)	:	$(NAME)
@@ -43,8 +41,10 @@ $(LNK)	:	$(NAME)
 $(NAME)	:	$(OBJS) $(INC)
 	gcc $(CFLAGS) ${LDFLAGS} $(OBJS) $(LIBS) -o $(NAME)
 
-$(LIBS)	:
+$(LIBS)	: .FORCE
 	@$(MAKE) -C libft
+
+.FORCE	:
 
 clean	:
 	$(RM) $(OBJS) && $(MAKE) clean -C libft
@@ -53,3 +53,5 @@ fclean	:	clean
 	$(RM) $(NAME) $(LNK) libft/libft.a
 
 re		:	fclean all
+
+.PHONY	:	all re clean fclean
