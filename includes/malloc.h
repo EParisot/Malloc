@@ -6,7 +6,7 @@
 /*   By: eparisot <eparisot@42.student.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/23 17:48:14 by eparisot          #+#    #+#             */
-/*   Updated: 2019/10/24 19:46:07 by eparisot         ###   ########.fr       */
+/*   Updated: 2019/10/27 20:02:14 by eparisot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ typedef struct				s_header
 	struct s_header			*prev;
 	struct s_header			*next;
 	int						is_free;
-	char					*align[4];
+	char					align[4];
 }							t_header;
 
 t_header					*g_mem_start;
